@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AnimX - Animations CSS</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:24px;font-family:Arial,sans-serif;background:#f2f4f7;color:#222}
+h1{text-align:center;color:#183153}
+.intro{text-align:center}
+.commandes{max-width:900px;margin:20px auto;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+button{padding:9px 12px;border:1px solid #183153;border-radius:6px;background:white;color:#183153;cursor:pointer}
+button:hover,button.actif{background:#183153;color:white}
+.zone{width:min(90vw,600px);height:430px;margin:auto;padding:12px;position:relative;overflow:hidden;background:white;border:2px dashed #9aa6b2;perspective:700px}
+#bloc{width:100px;height:100px;background:red;border:2px solid black;position:relative;left:0;top:0;transform-origin:center}
+@keyframes largeur{0%,100%{width:100%}50%{width:50%}}
+@keyframes horizontal{0%,100%{transform:translateX(0)}50%{transform:translateX(200px)}}
+@keyframes vertical{0%,100%{transform:translateY(0)}50%{transform:translateY(200px)}}
+@keyframes rotation{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pulsation{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+@keyframes inclinaison{0%,100%{transform:rotateX(-35deg)}50%{transform:rotateX(35deg)}}
+@keyframes couleurPosition{
+0%{background:red;left:0;top:0}
+25%{background:yellow;left:200px;top:0}
+50%{background:blue;left:200px;top:200px}
+75%{background:green;left:0;top:200px}
+100%{background:red;left:0;top:0}
+}
+#bloc.anim-largeur{animation:largeur 4s ease-in-out infinite}
+#bloc.anim-horizontal{animation:horizontal 2s ease-in-out infinite}
+#bloc.anim-vertical{animation:vertical 2s ease-in-out infinite}
+#bloc.anim-rotation{animation:rotation 2s linear infinite}
+#bloc.anim-pulsation{animation:pulsation 1.5s ease-in-out infinite}
+#bloc.anim-inclinaison{animation:inclinaison 1.5s ease-in-out infinite}
+#bloc.anim-couleur-position{position:absolute;animation:couleurPosition 8s linear infinite}
+.legende{max-width:850px;margin:18px auto;line-height:1.5;font-size:14px}
+.astuce{color:#555;font-style:italic}\n.legende h2{margin-top:24px;color:#183153;font-size:20px}\n.legende pre{overflow-x:auto;padding:14px;background:#182536;color:#f4f7fb;border-radius:8px;line-height:1.5}\n.legende code{font-family:Consolas,monospace;font-size:13px}
+
+.code-actif{max-width:850px;margin:18px auto;padding:16px;background:#fff;border:1px solid #cbd5df;border-radius:10px}
+.code-actif h2{margin:0 0 8px;color:#183153;font-size:20px}
+.code-actif p{margin:0 0 10px;color:#526170}
+.code-actif pre{margin:0;overflow-x:auto;padding:14px;background:#182536;color:#f4f7fb;border-radius:8px;line-height:1.5}
+.code-actif code{font-family:Consolas,monospace;font-size:13px;white-space:pre}
+
+</style>
+</head>
+<body>
+<h1>Les animations en CSS</h1>
+<p class="intro">Choisir une animation pour observer le comportement du bloc rouge.</p>
+<div class="commandes">
+<button data-animation="anim-largeur">a) Largeur</button>
+<button data-animation="anim-horizontal">b) Translation horizontale</button>
+<button data-animation="anim-vertical">c) Translation verticale</button>
+<button data-animation="anim-rotation">d) Rotation</button>
+<button data-animation="anim-pulsation">e) Pulsation</button>
+<button data-animation="anim-inclinaison">f) Inclinaison X</button>
+<button data-animation="anim-couleur-position">g) Couleur et position</button>
+<button id="arret">Arrêter</button>
+</div>
+<div class="zone"><div id="bloc"></div></div>
+<div class="code-actif" aria-live="polite">
+  <h2>Code @keyframes de l’animation sélectionnée</h2>
+  <p id="nom-animation">Sélectionnez une animation pour afficher son code.</p>
+  <pre><code id="code-keyframes">/* Le code @keyframes apparaîtra ici. */</code></pre>
+</div>
+<div class="legende">
+<p><strong>Propriétés initiales :</strong> largeur : 100px ; hauteur : 100px ; couleur de fond : rouge ; bordure : 2px solid black.</p>
+<p><strong>Remarque :</strong> chaque bouton lance une animation différente. Le bouton « Arrêter » arrête l'animation et replace le bloc à son état initial.</p>
+<p class="astuce">Pour l'animation de largeur, 100% et 50% sont calculés par rapport à la largeur de la zone.</p>
+
+<h2>Comprendre les images clés : @keyframes</h2>
+<p>La règle <strong>@keyframes</strong> permet de définir les différentes étapes d'une animation.</p>
+<ul>
+  <li><strong>0%</strong> : état initial de l'animation.</li>
+  <li><strong>50%</strong> : état du bloc à mi-parcours.</li>
+  <li><strong>100%</strong> : état final de l'animation.</li>
+</ul>
+<p><strong>Exemple : animation de couleur et de position</strong></p>
+<pre><code>@keyframes couleurPosition {
+  0%   { background: red;   left: 0;   top: 0; }
+  25%  { background: yellow; left: 200px; top: 0; }
+  50%  { background: blue;  left: 200px; top: 200px; }
+  75%  { background: green; left: 0;   top: 200px; }
+  100% { background: red;   left: 0;   top: 0; }
+}</code></pre>
+<p><strong>À retenir :</strong> les pourcentages indiquent à quel moment de l'animation appliquer les propriétés CSS. Les valeurs et les propriétés peuvent changer à chaque étape.</p>
+</div>
+<script>
+const bloc=document.getElementById("bloc");
+const boutons=document.querySelectorAll("[data-animation]");
+const nomAnimation=document.getElementById("nom-animation");
+const codeKeyframes=document.getElementById("code-keyframes");
+
+const animations=["anim-largeur","anim-horizontal","anim-vertical","anim-rotation","anim-pulsation","anim-inclinaison","anim-couleur-position"];
+
+const codes={
+  "anim-largeur": {
+    nom:"a) Largeur",
+    code:`@keyframes largeur {
+  0%, 100% { width: 100%; }
+  50%      { width: 50%; }
+}`
+  },
+  "anim-horizontal": {
+    nom:"b) Translation horizontale",
+    code:`@keyframes horizontal {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(200px); }
+}`
+  },
+  "anim-vertical": {
+    nom:"c) Translation verticale",
+    code:`@keyframes vertical {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(200px); }
+}`
+  },
+  "anim-rotation": {
+    nom:"d) Rotation",
+    code:`@keyframes rotation {
+  from { transform: rotate(0); }
+  to   { transform: rotate(360deg); }
+}`
+  },
+  "anim-pulsation": {
+    nom:"e) Pulsation",
+    code:`@keyframes pulsation {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.5); }
+}`
+  },
+  "anim-inclinaison": {
+    nom:"f) Inclinaison X",
+    code:`@keyframes inclinaison {
+  0%, 100% { transform: rotateX(-35deg); }
+  50%      { transform: rotateX(35deg); }
+}`
+  },
+  "anim-couleur-position": {
+    nom:"g) Couleur et position",
+    code:`@keyframes couleurPosition {
+  0%   { background: red;    left: 0;     top: 0; }
+  25%  { background: yellow; left: 200px; top: 0; }
+  50%  { background: blue;   left: 200px; top: 200px; }
+  75%  { background: green;  left: 0;     top: 200px; }
+  100% { background: red;    left: 0;     top: 0; }
+}`
+  }
+};
+
+function reinitialiser(){
+  bloc.classList.remove(...animations);
+  void bloc.offsetWidth;
+  boutons.forEach(b=>b.classList.remove("actif"));
+  nomAnimation.textContent="Aucune animation sélectionnée.";
+  codeKeyframes.textContent="/* Sélectionnez un bouton pour afficher le code @keyframes correspondant. */";
+}
+
+boutons.forEach(b=>{
+  b.addEventListener("click",()=>{
+    reinitialiser();
+    const animation=b.dataset.animation;
+    bloc.classList.add(animation);
+    b.classList.add("actif");
+    nomAnimation.textContent=codes[animation].nom;
+    codeKeyframes.textContent=codes[animation].code;
+  });
+});
+
+document.getElementById("arret").addEventListener("click",reinitialiser);
+</script>
+</body>
+</html>
